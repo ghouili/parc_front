@@ -128,6 +128,7 @@ const Users = () => {
   };
 
   const handleInputChange = (e) => {
+    console.log(e.target.value);
     setFormValues({
       ...formValues,
       [e.target.name]: e.target.value,
@@ -213,12 +214,13 @@ const Users = () => {
       />
 
       {/* <main> */}
-      <main className="mt-10 w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  gap-4">
+      <main className="mt-10 w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  gap-4">
         {filterData
           .slice(0)
           .reverse()
           .map(
             ({ _id, avatar, cin, nom, prenom, tel, role, niveau, competence, date_embouche, mission }) => {
+              if (role === "admin") return null ;
               return (
 
                 <User
@@ -233,7 +235,8 @@ const Users = () => {
                     date_embouche,
                     niveau,
                     mission,
-                    competence
+                    competence,
+                    role
                   }}
                   deleteUser={deleteUser}
                   UpdateUser={UpdateUser}
@@ -397,7 +400,7 @@ const Users = () => {
                     sm:text-xs focus:ring-blue-500 focus:border-blue-500 "
                   >
                     <option value="chauffeur" selected>
-                      Chouffeur
+                      Chauffeur
                     </option>
                     <option value="maintenance">Maintenance</option>
                     <option value="agent">Agent</option>

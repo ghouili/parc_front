@@ -115,10 +115,34 @@ const Cars = () => {
         });
     };
 
-    const Update_data = (item) => {
+    const Update_data = async (item) => {
         console.log(item);
-        setFormValues(item);
-        setOpen(true);
+
+        if (item.intern) {
+            try {
+
+                let url = `${path}car/${item._id}`;
+                let result = await axios.put(url, { chauffeur: item.chauffeur });
+                console.log(result);
+                if (result.data.success === true) {
+                    fetchData();
+                    swal("Success!", result.data.message, "success");
+                } else {
+                    return swal("Error!", result.data.message, "error");
+                }
+            } catch (error) {
+                console.error(error);
+                return swal(
+                    "Error!",
+                    "Something went wrong. Please try again later.",
+                    "error"
+                );
+            }
+        } else {
+
+            setFormValues(item);
+            setOpen(true);
+        }
     };
 
     const handleInputChange = (e) => {
@@ -196,9 +220,9 @@ const Cars = () => {
         <>
             <SecNavbar
                 data={{
-                    page: "Vehicules", 
-                    searchLabel: "Chercher vehicule..", 
-                    buttonLabel: "Ajouter Vehicule", 
+                    page: "Vehicules",
+                    searchLabel: "Chercher vehicule..",
+                    buttonLabel: "Ajouter Vehicule",
                     search: search
                 }}
                 handleOpen={handleOpen}
@@ -218,7 +242,9 @@ const Cars = () => {
                             fuelType,
                             chauffeur,
                             panne,
-                            picture }) => {
+                            picture,
+                            ispanne
+                        }) => {
                             return (
 
                                 <Car
@@ -230,11 +256,12 @@ const Cars = () => {
                                         type,
                                         fuelType,
                                         chauffeur,
-                                        panne
-                                    }} 
+                                        panne,
+                                        ispanne
+                                    }}
                                     Update_data={Update_data}
                                     deleteData={deleteData}
-                                    />
+                                />
                             );
                         })}
             </main>

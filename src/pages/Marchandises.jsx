@@ -52,7 +52,7 @@ const Marchandises = () => {
 
     const fetchData = async () => {
         const result = await axios.get(`${path}marchandise`);
-        const allMissions = await axios.get(`${path}mission/marchandise`);
+        const allMissions = await axios.get(`${path}marchandise/mission`);
 
         setfilterData(result.data.data);
         setmasterData(result.data.data);
@@ -73,10 +73,33 @@ const Marchandises = () => {
         });
     };
 
-    const Update_data = (item) => {
+    const Update_data = async (item) => {
         console.log(item);
-        setFormValues(item);
-        setOpen(true);
+
+        if (item.intern) {
+            try {
+
+                let url = `${path}marchandise/${item._id}`;
+                let result = await axios.put(url, { mission: item.mission });
+                console.log(result);
+                if (result.data.success === true) {
+                    fetchData();
+                    swal("Success!", result.data.message, "success");
+                } else {
+                    return swal("Error!", result.data.message, "error");
+                }
+            } catch (error) {
+                console.error(error);
+                return swal(
+                    "Error!",
+                    "Something went wrong. Please try again later.",
+                    "error"
+                );
+            }
+        } else {
+            setFormValues(item);
+            setOpen(true);
+        }
     };
 
     const handleInputChange = (e) => {
@@ -90,7 +113,7 @@ const Marchandises = () => {
         e.preventDefault();
         // // Handle form submission
 
-        // console.log(formValues);
+        console.log(formValues);
 
         try {
             let url, result;
@@ -157,11 +180,12 @@ const Marchandises = () => {
                     .slice(0)
                     .reverse()
                     .map(
-                        ({ title, type, qte, mission}) => {
+                        ({ _id, title, type, qte, mission }) => {
                             return (
 
                                 <Marchandise
                                     data={{
+                                        _id,
                                         title,
                                         type,
                                         qte,
@@ -213,7 +237,7 @@ const Marchandises = () => {
                                         htmlFor="MissionID"
                                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                     >
-                                        Chauffeur:
+                                        Mission:
                                     </label>
                                     <select
                                         name="mission"
@@ -228,11 +252,11 @@ const Marchandises = () => {
                                         </option>
 
                                         {missions.slice(0)
-                                            .reverse().map(({ _id, cin, nom, prenom, }) => {
+                                            .reverse().map(({ _id, date_affectation, title, }) => {
                                                 return (
                                                     <option value={_id} >
-                                                        {nom} {prenom} ({cin})
-                                                    </option>
+
+                                                        {title} ({date_affectation})                                                       </option>
                                                 );
                                             })}
 

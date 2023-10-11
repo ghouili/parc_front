@@ -54,7 +54,7 @@ const Mission = ({ data, Update_data, deleteData }) => {
                 {chauffeur ?
 
                     <Typography variant="h6" color="blue-gray" className="font-medium">
-                        Chaufffeur: <Link className='text-blue-800' to='/'> Ahmed manai</Link>
+                        Chaufffeur: <Link className='text-blue-800' to='/'> {chauffeur.nom} {chauffeur.prenom}</Link>
                     </Typography>
                     :
                     <div className="w-full flex flex-row items-center gap-4">

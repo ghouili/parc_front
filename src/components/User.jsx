@@ -20,7 +20,7 @@ import { IoTrashOutline } from "react-icons/io5";
 import { path } from '../utils/Variables';
 
 const User = ({ data, deleteUser, UpdateUser }) => {
-  const { _id, avatar, nom, prenom, cin, tel, date_embouche, niveau, mission, competence } = data;
+  const { _id, avatar, nom, prenom, cin, tel, date_embouche, niveau, mission, competence, role } = data;
   return (
     <Card className="w-full max-w-[26rem] shadow-lg">
       <CardHeader floated={false} color="transparent">
@@ -34,10 +34,11 @@ const User = ({ data, deleteUser, UpdateUser }) => {
         </div>
       </CardHeader>
       <CardBody>
-        <div className="mb-3 flex items-center justify-between">
+        <div className="mb-3 flex flex-row gap-2 items-center justify-between">
           <Typography variant="h4" color="blue-gray" className="font-medium">
-            {nom} {prenom}
+            {nom} {prenom} 
           </Typography>
+            <p>({role})</p>
 
         </div>
         <Typography variant="h5" color="blue-gray" className="font-medium">
